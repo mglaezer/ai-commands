@@ -17,6 +17,12 @@ The argument is freeform — it can be a branch name, PR number, or GitHub PR UR
 7. If worktree exists but no workspace: `cmux new-workspace --cwd <worktree-path> --command "claude --dangerously-skip-permissions"` (returns the new workspace ref), `cmux rename-workspace --workspace <new-ref> <branch>`, switch to it.
 8. If no worktree: create it (for remote-only branches use `git worktree add -b <branch> <path> origin/<branch>`), `cmux new-workspace --cwd <worktree-path> --command "claude --dangerously-skip-permissions"` (returns the new workspace ref), `cmux rename-workspace --workspace <new-ref> <branch>`, switch to it.
 
+9. Set workspace sidebar status:
+   - `cmux set-status --workspace <ref> repo "<repo-name>" --icon folder`
+   - `cmux set-status --workspace <ref> branch "<branch>" --icon arrow.triangle.branch`
+   - If input was a PR number or URL: `cmux set-status --workspace <ref> pr "#<number>" --icon arrow.triangle.pull`
+10. Play a sound when done: `afplay -v 0.10 /System/Library/Sounds/Tink.aiff &`
+
 Note: Use `cmux new-workspace --cwd <path>` instead of `cmux <path>` — the latter steals app focus. `cmux` commands require workspace refs (e.g. `workspace:5`), not names. Always capture and use the ref returned.
 
 ## DANGER — never do these
