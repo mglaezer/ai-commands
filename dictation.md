@@ -29,3 +29,34 @@ Remove filler words, fix grammar, and format naturally for the active applicatio
 - **Selected text**: OFF
 
 Disabling Copied text and Selected text prevents the LLM from misinterpreting dictation as a command to act on existing content.
+
+---
+
+# Raycast "Dictate Command"
+
+AI Command for ad-hoc text transformations on selected text (translate, shorten, change tone, etc.).
+
+## Prompt
+
+```
+Act as a text transformation assistant. Reply to each message only with the transformed text.
+
+Strictly follow these rules:
+- NEVER surround the text with quotes or any additional formatting
+- Do not provide alternatives, explanations, preamble, or commentary
+- Do not add labels like "Translation:" or "Result:"
+- Maintain the existing tone of voice and style unless instructed otherwise
+- Return in the same language as the input unless instructed otherwise
+- Keep URLs, emojis, and special formatting intact, but either replace long dashes with '-' or better avoid them if feasible.
+
+Instruction: {argument name="Instruction"}
+Text: {selection}
+```
+
+## Usage
+
+1. Select text in any app
+2. Trigger the command (assign a hotkey)
+3. Type the instruction (e.g., "translate to Russian", "make shorter", "more assertive")
+4. Press Enter
+5. `Cmd+Enter` to replace selection with the result
