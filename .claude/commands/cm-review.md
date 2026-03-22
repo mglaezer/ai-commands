@@ -7,7 +7,7 @@ The argument is freeform — it can be a branch name, PR number, or GitHub PR UR
 ## Steps
 
 1. Run all steps from `/cm-open`, but when creating the workspace, pass the review prompt to Claude directly:
-   `cmux new-workspace --cwd <worktree-path> --command "cd <worktree-path>/<relative-subdir> && claude --dangerously-skip-permissions /code-review"`
+   `cmux new-workspace --cwd <worktree-path> --command "cd <worktree-path>/<relative-subdir> 2>/dev/null; claude --dangerously-skip-permissions /code-review"`
 2. Rename and switch to the workspace as usual.
 3. If the workspace already existed (step 6 in `/cm-open`): after switching, send `/code-review` to the existing Claude session via `cmux send --workspace <ref> "/code-review"` + `cmux send-key --workspace <ref> Enter`.
 4. Play a sound when done: `afplay -v 0.10 /System/Library/Sounds/Tink.aiff &`
