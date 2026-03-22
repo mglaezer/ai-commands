@@ -6,7 +6,7 @@ The argument is freeform — it can be a branch name, PR number, or GitHub PR UR
 
 ## Steps
 
-1. Verify the current directory is inside a git repo. Resolve main repo root via `git rev-parse --git-common-dir`.
+1. Verify the current directory is inside a git repo. Resolve main repo root via `git rev-parse --git-common-dir`. Capture the current subdirectory relative to the git root: `git rev-parse --show-prefix` (e.g. `src/utils/`, or empty if at root).
 2. Parse input:
    - Branch name → use directly.
    - PR number or GitHub PR URL → resolve to branch via `gh pr view`.
@@ -14,8 +14,8 @@ The argument is freeform — it can be a branch name, PR number, or GitHub PR UR
 4. Check if the branch is already checked out anywhere (`git worktree list`). If it's checked out in the main repo, warn the user and stop. If it's in another worktree at an unexpected path, inform and offer to use that path instead.
 5. Worktree path: `<parent-of-main-repo>/<repo-name>-<sanitized-branch>`. Sanitize: replace non-alphanumeric chars with `-`.
 6. If worktree + workspace already exist: **switch to it** (`cmux select-workspace --workspace <ref>`) and stop.
-7. If worktree exists but no workspace: `cmux new-workspace --cwd <worktree-path> --command "claude --dangerously-skip-permissions"` (returns the new workspace ref), `cmux rename-workspace --workspace <new-ref> <branch>`, switch to it.
-8. If no worktree: create it (for remote-only branches use `git worktree add -b <branch> <path> origin/<branch>`), `cmux new-workspace --cwd <worktree-path> --command "claude --dangerously-skip-permissions"` (returns the new workspace ref), `cmux rename-workspace --workspace <new-ref> <branch>`, switch to it.
+7. If worktree exists but no workspace: `cmux new-workspace --cwd <worktree-path> --command "cd <worktree-path>/<relative-subdir> && claude --dangerously-skip-permissions"` (returns the new workspace ref), `cmux rename-workspace --workspace <new-ref> <branch>`, switch to it.
+8. If no worktree: create it (for remote-only branches use `git worktree add -b <branch> <path> origin/<branch>`), `cmux new-workspace --cwd <worktree-path> --command "cd <worktree-path>/<relative-subdir> && claude --dangerously-skip-permissions"` (returns the new workspace ref), `cmux rename-workspace --workspace <new-ref> <branch>`, switch to it.
 
 9. Set workspace sidebar status (set in reverse order — cmux displays last-set on top):
    - If input was a PR number or URL: `cmux set-status --workspace <ref> pr "#<number>" --icon arrow.triangle.pull`
